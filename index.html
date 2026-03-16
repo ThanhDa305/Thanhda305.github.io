@@ -3,13 +3,13 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Tính tiền điện nước phòng trọ</title>
+<title>Tính tiền điện nước phòng</title>
 
 <style>
 
 body{
-font-family: Arial;
-background:#f4f6f9;
+font-family: Arial, sans-serif;
+background:#f2f4f8;
 display:flex;
 justify-content:center;
 padding:40px;
@@ -18,28 +18,43 @@ padding:40px;
 .container{
 background:white;
 padding:30px;
+width:700px;
 border-radius:10px;
-width:600px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
 
-h2{
+h1{
 text-align:center;
 margin-bottom:20px;
+}
+
+.section{
+margin-bottom:25px;
+}
+
+label{
+font-weight:bold;
 }
 
 input{
 width:100%;
 padding:8px;
 margin:5px 0 10px 0;
-border-radius:5px;
 border:1px solid #ccc;
+border-radius:5px;
+}
+
+.member-row{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:10px;
+margin-bottom:10px;
 }
 
 button{
 width:100%;
 padding:12px;
-background:#4CAF50;
+background:#2d89ef;
 color:white;
 border:none;
 border-radius:6px;
@@ -48,58 +63,81 @@ cursor:pointer;
 }
 
 button:hover{
-background:#45a049;
-}
-
-.member{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:10px;
+background:#1b5fbf;
 }
 
 .result{
 margin-top:20px;
-background:#eef2ff;
 padding:15px;
+background:#eef2ff;
 border-radius:8px;
 }
 
-</style>
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
 
+table, th, td{
+border:1px solid #ddd;
+}
+
+th, td{
+padding:8px;
+text-align:center;
+}
+
+th{
+background:#f0f0f0;
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="container">
 
-<h2>Tính tiền điện nước (8 người)</h2>
+<h1>Tính tiền điện nước</h1>
 
-<h3>Điện</h3>
-Số điện đầu
+<div class="section">
+
+<h3>Thông tin điện</h3>
+
+<label>Chỉ số điện đầu</label>
 <input type="number" id="electric_start">
 
-Số điện cuối
+<label>Chỉ số điện cuối</label>
 <input type="number" id="electric_end">
 
-Giá điện (VNĐ/kWh)
-<input type="number" id="electric_price" value="3500">
+<label>Giá điện (VNĐ/kWh)</label>
+<input type="number" id="electric_price" value="2500">
 
+</div>
 
-<h3>Nước</h3>
+<div class="section">
 
-Số nước đầu
+<h3>Thông tin nước</h3>
+
+<label>Chỉ số nước đầu</label>
 <input type="number" id="water_start">
 
-Số nước cuối
+<label>Chỉ số nước cuối</label>
 <input type="number" id="water_end">
 
-Giá nước (VNĐ/m3)
-<input type="number" id="water_price" value="15000">
+<label>Giá nước (VNĐ/m3)</label>
+<input type="number" id="water_price" value="10000">
 
+</div>
 
-<h3>Số ngày ở của từng thành viên</h3>
+<div class="section">
+
+<h3>Thành viên và số ngày ở</h3>
 
 <div id="members"></div>
+
+</div>
 
 <button onclick="calculate()">Tính tiền</button>
 
@@ -113,55 +151,78 @@ Giá nước (VNĐ/m3)
 let membersDiv = document.getElementById("members");
 
 for(let i=1;i<=8;i++){
+
 membersDiv.innerHTML += `
-<div class="member">
-<label>Thành viên ${i}</label>
-<input type="number" id="day${i}" placeholder="Số ngày ở">
+<div class="member-row">
+<input type="text" placeholder="Tên thành viên ${i}" id="name${i}">
+<input type="number" placeholder="Ngày ở" id="day${i}">
 </div>
 `;
+
 }
 
 function calculate(){
 
-let e_start = Number(document.getElementById("electric_start").value);
-let e_end = Number(document.getElementById("electric_end").value);
-let e_price = Number(document.getElementById("electric_price").value);
+let eStart = Number(document.getElementById("electric_start").value);
+let eEnd = Number(document.getElementById("electric_end").value);
+let ePrice = Number(document.getElementById("electric_price").value);
 
-let w_start = Number(document.getElementById("water_start").value);
-let w_end = Number(document.getElementById("water_end").value);
-let w_price = Number(document.getElementById("water_price").value);
+let wStart = Number(document.getElementById("water_start").value);
+let wEnd = Number(document.getElementById("water_end").value);
+let wPrice = Number(document.getElementById("water_price").value);
 
-let electric = (e_end - e_start) * e_price;
-let water = (w_end - w_start) * w_price;
+let electricUsed = eEnd - eStart;
+let waterUsed = wEnd - wStart;
 
-let total = electric + water;
+let electricMoney = electricUsed * ePrice;
+let waterMoney = waterUsed * wPrice;
 
+let total = electricMoney + waterMoney;
+
+let names = [];
 let days = [];
 let totalDays = 0;
 
 for(let i=1;i<=8;i++){
-let d = Number(document.getElementById("day"+i).value);
-days.push(d);
-totalDays += d;
+
+let name = document.getElementById("name"+i).value || "TV"+i;
+let day = Number(document.getElementById("day"+i).value);
+
+names.push(name);
+days.push(day);
+
+totalDays += day;
+
 }
 
 let resultHTML = `
-<h3>Tổng tiền điện: ${electric.toLocaleString()} VNĐ</h3>
-<h3>Tổng tiền nước: ${water.toLocaleString()} VNĐ</h3>
+<h3>Tổng tiền điện: ${electricMoney.toLocaleString()} VNĐ</h3>
+<h3>Tổng tiền nước: ${waterMoney.toLocaleString()} VNĐ</h3>
 <h3>Tổng chi phí: ${total.toLocaleString()} VNĐ</h3>
-<hr>
-<b>Chi tiết từng người:</b><br>
+
+<table>
+<tr>
+<th>Thành viên</th>
+<th>Ngày ở</th>
+<th>Số tiền</th>
+</tr>
 `;
 
 for(let i=0;i<8;i++){
 
-let pay = (days[i]/totalDays)*total;
+let pay = (days[i]/totalDays) * total;
 
 resultHTML += `
-Thành viên ${i+1}: ${pay.toLocaleString()} VNĐ (${days[i]} ngày)<br>
+<tr>
+<td>${names[i]}</td>
+<td>${days[i]}</td>
+<td>${pay.toLocaleString()} VNĐ</td>
+</tr>
 `;
 
 }
+
+resultHTML += "</table>";
 
 document.getElementById("result").innerHTML = resultHTML;
 
