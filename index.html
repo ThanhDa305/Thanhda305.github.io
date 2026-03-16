@@ -1,245 +1,130 @@
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nguyễn Thanh Đa • Portfolio</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-    }
+<meta charset="UTF-8">
+<title>Tính Tiền Điện Nước</title>
 
-    /* hiệu ứng đốm mờ nền */
-    .glow-1 {
-      background: radial-gradient(circle at 30% 30%, rgba(96,165,250,0.35) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(60px);
-    }
-    .glow-2 {
-      background: radial-gradient(circle at 70% 60%, rgba(192,132,252,0.35) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(80px);
-    }
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 
-    /* card glassy */
-    .glass {
-      background: rgba(17, 25, 40, 0.55);
-      box-shadow:
-        0 30px 80px rgba(0,0,0,0.8),
-        0 2px 4px rgba(255,255,255,0.05) inset;
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(16px) saturate(140%);
-      -webkit-backdrop-filter: blur(16px) saturate(140%);
-    }
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    width:400px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
 
-    /* avatar circle gradient ring */
-    .avatar-ring {
-      background-image: conic-gradient(
-        from 0deg,
-        #60a5fa,
-        #a78bfa,
-        #f472b6,
-        #60a5fa
-      );
-    }
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
 
-    /* subtle animated pulse ring */
-    .ring-animate {
-      animation: spin-slow 6s linear infinite;
-    }
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-  </style>
+label{
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0 15px 0;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#4CAF50;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#45a049;
+}
+
+.result{
+    margin-top:20px;
+    padding:15px;
+    background:#eef2ff;
+    border-radius:8px;
+}
+
+.member-list{
+    margin-top:10px;
+}
+</style>
 </head>
-<body class="min-h-screen bg-[#0a0f1a] text-slate-100 relative overflow-x-hidden selection:bg-indigo-500/40 selection:text-white">
 
-  <!-- background glow blobs -->
-  <div class="pointer-events-none absolute inset-0 overflow-hidden">
-    <div class="glow-1 absolute -top-32 -left-24 w-72 h-72 rounded-full opacity-70"></div>
-    <div class="glow-2 absolute bottom-0 -right-24 w-96 h-[28rem] rounded-full opacity-70"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.08)_0%,rgba(0,0,0,0)_60%)] opacity-[0.15]"></div>
-  </div>
+<body>
 
-  <!-- page wrapper -->
-  <main class="relative z-10 flex flex-col items-center px-4 py-10 md:py-16">
+<div class="container">
 
-    <!-- top badge -->
-    <div class="mb-6 flex items-center gap-2 text-xs font-medium text-slate-300 tracking-wide bg-white/5 border border-white/10 backdrop-blur-md rounded-full px-3 py-1 shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-      <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
-      ONLINE • Nguyễn Thanh Đa
-    </div>
+<h2>Tính Tiền Điện Nước (8 người)</h2>
 
-    <!-- main card -->
-    <section class="glass w-full max-w-xl rounded-2xl p-6 md:p-8 relative">
-      <!-- subtle gradient line top -->
-      <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+<label>Tiền điện (VND)</label>
+<input type="number" id="electric">
 
-      <!-- header: avatar + name -->
-      <header class="flex flex-col items-center text-center">
-        <!-- avatar ring -->
-        <div class="relative mb-5">
-          <div class="ring-animate avatar-ring p-[2px] rounded-full shadow-[0_20px_60px_rgba(96,165,250,0.5)]">
-            <div class="bg-slate-900 rounded-full p-[2px]">
-              <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 flex items-center justify-center text-slate-200 font-semibold text-xl md:text-2xl tracking-tight">
-                ♊
-              </div>
-            </div>
-          </div>
+<label>Tiền nước (VND)</label>
+<input type="number" id="water">
 
-          <!-- zodiac badge -->
-          <div class="absolute -bottom-2 -right-2 bg-indigo-500/20 text-indigo-200 text-[10px] font-medium px-2 py-1 rounded-full border border-indigo-400/30 shadow-[0_10px_30px_rgba(99,102,241,0.6)] leading-none">
-            ♊ Gemini
-          </div>
-        </div>
+<label>Chi phí khác (internet, rác...)</label>
+<input type="number" id="other" value="0">
 
-        <h1 class="text-2xl md:text-3xl font-semibold text-white tracking-tight leading-snug">
-          Nguyễn Thanh Đa
-        </h1>
-        <p class="text-slate-400 text-sm md:text-base leading-relaxed mt-2 max-w-md">
-          Sinh tháng 5 / 2004 &nbsp;•&nbsp; Cung Song Tử ♊<br class="hidden md:block"/>
-          Sinh viên ngành <span class="text-white font-medium">Hệ Thống Thông Tin</span><br class="hidden md:block"/>
-          Khóa 48 – Đại học Cần Thơ
-        </p>
-      </header>
+<button onclick="calculate()">Tính tiền</button>
 
-      <!-- divider line -->
-      <div class="my-6 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+<div class="result" id="result"></div>
 
-      <!-- info grid -->
-      <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-        <!-- age-ish / birth -->
-        <div class="rounded-xl bg-white/5 border border-white/10 p-4 flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
-          <span class="text-[11px] uppercase tracking-wide text-slate-400 font-medium mb-1">
-            Năm sinh
-          </span>
-          <span class="text-white font-semibold text-lg leading-tight">
-            2004
-          </span>
-          <span class="text-slate-400 text-xs leading-tight">Gen IT trẻ, máu học hỏi</span>
-        </div>
+</div>
 
-        <!-- major -->
-        <div class="rounded-xl bg-white/5 border border-white/10 p-4 flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
-          <span class="text-[11px] uppercase tracking-wide text-slate-400 font-medium mb-1">
-            Chuyên ngành
-          </span>
-          <span class="text-white font-semibold text-lg leading-tight">
-            Hệ Thống<br/>Thông Tin
-          </span>
-          <span class="text-slate-400 text-xs leading-tight">Phân tích, dữ liệu, giải pháp</span>
-        </div>
+<script>
 
-        <!-- school -->
-        <div class="rounded-xl bg-white/5 border border-white/10 p-4 flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
-          <span class="text-[11px] uppercase tracking-wide text-slate-400 font-medium mb-1">
-            Trường
-          </span>
-          <span class="text-white font-semibold text-lg leading-tight">
-            ĐH Cần Thơ
-          </span>
-          <span class="text-slate-400 text-xs leading-tight">Khóa 48 – CNTT & TT</span>
-        </div>
-      </section>
+function calculate(){
 
-      <!-- about me -->
-      <section class="mt-8 text-sm leading-relaxed text-slate-300">
-        <h2 class="text-white font-semibold text-base md:text-lg flex items-center gap-2 mb-3">
-          <span class="inline-block w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)]"></span>
-          Vài dòng giới thiệu
-        </h2>
-        <p class="text-slate-300/90">
-          Mình là Đa – kiểu người thích mày mò hệ thống, dữ liệu và cách mọi thứ kết nối với nhau.
-          Gu là làm cho thứ phức tạp nhìn đơn giản hơn.
-        </p>
-        <p class="text-slate-400 mt-3">
-          Định hướng: trở thành người xây giải pháp số cho doanh nghiệp (data / web / tích hợp hệ thống),
-          chứ không chỉ dừng ở code cho đẹp.
-        </p>
-        <p class="text-slale-400 mt-3">
-          Mình ghi cho vui thôi ạ!
-        </p>
-      </section>
+let electric = Number(document.getElementById("electric").value);
+let water = Number(document.getElementById("water").value);
+let other = Number(document.getElementById("other").value);
 
-      <!-- timeline / status -->
-      <section class="mt-8 text-sm">
-        <h2 class="text-white font-semibold text-base md:text-lg flex items-center gap-2 mb-4">
-          <span class="inline-block w-1.5 h-1.5 rounded-full bg-pink-400 shadow-[0_0_8px_rgba(244,114,182,0.8)]"></span>
-          Trạng thái hiện tại
-        </h2>
+let total = electric + water + other;
+let perPerson = total / 8;
 
-        <div class="relative pl-5 space-y-5">
-          <!-- dot + line background -->
-          <div class="absolute left-1 top-1 bottom-1 w-px bg-gradient-to-b from-white/20 via-white/5 to-transparent pointer-events-none"></div>
+let resultHTML = `
+<h3>Tổng chi phí: ${total.toLocaleString()} VND</h3>
+<p>Mỗi người phải trả: <b>${perPerson.toLocaleString()} VND</b></p>
 
-          <article class="relative">
-            <div class="absolute left-0 top-1 w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.9)] border border-white/60"></div>
-            <div class="bg-white/5 border border-white/10 rounded-lg p-4 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
-              <div class="flex flex-wrap items-baseline justify-between gap-2">
-                <span class="font-medium text-white leading-none">Sinh viên CTU</span>
-                <span class="text-[11px] text-slate-400 leading-none">Khóa 48</span>
-              </div>
-              <p class="text-slate-400 text-[13px] leading-relaxed mt-2">
-                Học và thực hành về hệ thống thông tin, nghiệp vụ, và dữ liệu – chuẩn bị mindset phân tích + triển khai thực tế.
-              </p>
-            </div>
-          </article>
+<div class="member-list">
+<b>Chi tiết 8 thành viên:</b>
+<ul>
+<li>Thành viên 1: ${perPerson.toLocaleString()} VND</li>
+<li>Thành viên 2: ${perPerson.toLocaleString()} VND</li>
+<li>Thành viên 3: ${perPerson.toLocaleString()} VND</li>
+<li>Thành viên 4: ${perPerson.toLocaleString()} VND</li>
+<li>Thành viên 5: ${perPerson.toLocaleString()} VND</li>
+<li>Thành viên 6: ${perPerson.toLocaleString()} VND</li>
+<li>Thành viên 7: ${perPerson.toLocaleString()} VND</li>
+<li>Thành viên 8: ${perPerson.toLocaleString()} VND</li>
+</ul>
+</div>
+`;
 
-          <article class="relative">
-            <div class="absolute left-0 top-1 w-2 h-2 rounded-full bg-indigo-400 shadow-[0_0_10px_rgba(129,140,248,0.8)] border border-indigo-300/60"></div>
-            <div class="bg-white/5 border border-white/10 rounded-lg p-4 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
-              <div class="flex flex-wrap items-baseline justify-between gap-2">
-                <span class="font-medium text-white leading-none">Hướng tới IT thực chiến</span>
-                <span class="text-[11px] text-slate-400 leading-none">next steps</span>
-              </div>
-              <p class="text-slate-400 text-[13px] leading-relaxed mt-2">
-                Muốn build cái gì “chạy được ngoài đời”, không chỉ code demo trong lớp.
-                Ưu tiên web hoặc app có ích thật sự, chứ không phải slide lý thuyết. Tuyệt đối không dính dáng đến AI nữa, huhu.
-              </p>
-            </div>
-          </article>
-        </div>
-      </section>
+document.getElementById("result").innerHTML = resultHTML;
 
-      <!-- contact -->
-      <section class="mt-8">
-        <h2 class="text-white font-semibold text-base md:text-lg flex items-center gap-2 mb-4">
-          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
-          Liên hệ
-        </h2>
+}
 
-        <div class="flex flex-col sm:flex-row gap-3 text-sm">
-          <a
-            href="mailto:nguyendapr2018@gmail.com"
-            class="flex-1 rounded-xl bg-emerald-500/10 border border-emerald-400/30 text-emerald-200 hover:bg-emerald-500/20 transition-colors shadow-[0_20px_60px_rgba(16,185,129,0.2)] px-4 py-3 text-center font-medium"
-          >
-            Email cá nhân
-          </a>
+</script>
 
-          <a
-            href="https://facebook.com/ntda305"
-            class="flex-1 rounded-xl bg-indigo-500/10 border border-indigo-400/30 text-indigo-200 hover:bg-indigo-500/20 transition-colors shadow-[0_20px_60px_rgba(99,102,241,0.3)] px-4 py-3 text-center font-medium"
-          >
-            Trang cá nhân
-          </a>
-        </div>
-      </section>
-
-      <!-- footer line -->
-      <div class="mt-10 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-
-      <!-- tiny footer -->
-      <footer class="mt-4 text-[11px] text-center text-slate-500 leading-relaxed">
-        © Nguyễn Thanh Đa — Hệ Thống Thông Tin K48, Đại học Cần Thơ<br/>
-        “Làm đơn giản cho người dùng, gánh phức tạp cho hệ thống.”
-      </footer>
-    </section>
-  </main>
 </body>
 </html>
+```
