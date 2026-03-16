@@ -3,85 +3,103 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Tính Tiền Điện Nước</title>
+<title>Tính tiền điện nước phòng trọ</title>
 
 <style>
+
 body{
-    font-family: Arial, sans-serif;
-    background: #f4f6f9;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+font-family: Arial;
+background:#f4f6f9;
+display:flex;
+justify-content:center;
+padding:40px;
 }
 
 .container{
-    background:white;
-    padding:30px;
-    border-radius:10px;
-    width:400px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+background:white;
+padding:30px;
+border-radius:10px;
+width:600px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 h2{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-label{
-    font-weight:bold;
+text-align:center;
+margin-bottom:20px;
 }
 
 input{
-    width:100%;
-    padding:10px;
-    margin:8px 0 15px 0;
-    border-radius:5px;
-    border:1px solid #ccc;
+width:100%;
+padding:8px;
+margin:5px 0 10px 0;
+border-radius:5px;
+border:1px solid #ccc;
 }
 
 button{
-    width:100%;
-    padding:12px;
-    background:#4CAF50;
-    color:white;
-    border:none;
-    border-radius:6px;
-    font-size:16px;
-    cursor:pointer;
+width:100%;
+padding:12px;
+background:#4CAF50;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
 }
 
 button:hover{
-    background:#45a049;
+background:#45a049;
+}
+
+.member{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:10px;
 }
 
 .result{
-    margin-top:20px;
-    padding:15px;
-    background:#eef2ff;
-    border-radius:8px;
+margin-top:20px;
+background:#eef2ff;
+padding:15px;
+border-radius:8px;
 }
 
-.member-list{
-    margin-top:10px;
-}
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="container">
 
-<h2>Tính Tiền Điện Nước (8 người)</h2>
+<h2>Tính tiền điện nước (8 người)</h2>
 
-<label>Tiền điện (VND)</label>
-<input type="number" id="electric">
+<h3>Điện</h3>
+Số điện đầu
+<input type="number" id="electric_start">
 
-<label>Tiền nước (VND)</label>
-<input type="number" id="water">
+Số điện cuối
+<input type="number" id="electric_end">
 
-<label>Chi phí khác (internet, rác...)</label>
-<input type="number" id="other" value="0">
+Giá điện (VNĐ/kWh)
+<input type="number" id="electric_price" value="3500">
+
+
+<h3>Nước</h3>
+
+Số nước đầu
+<input type="number" id="water_start">
+
+Số nước cuối
+<input type="number" id="water_end">
+
+Giá nước (VNĐ/m3)
+<input type="number" id="water_price" value="15000">
+
+
+<h3>Số ngày ở của từng thành viên</h3>
+
+<div id="members"></div>
 
 <button onclick="calculate()">Tính tiền</button>
 
@@ -89,35 +107,61 @@ button:hover{
 
 </div>
 
+
 <script>
+
+let membersDiv = document.getElementById("members");
+
+for(let i=1;i<=8;i++){
+membersDiv.innerHTML += `
+<div class="member">
+<label>Thành viên ${i}</label>
+<input type="number" id="day${i}" placeholder="Số ngày ở">
+</div>
+`;
+}
 
 function calculate(){
 
-let electric = Number(document.getElementById("electric").value);
-let water = Number(document.getElementById("water").value);
-let other = Number(document.getElementById("other").value);
+let e_start = Number(document.getElementById("electric_start").value);
+let e_end = Number(document.getElementById("electric_end").value);
+let e_price = Number(document.getElementById("electric_price").value);
 
-let total = electric + water + other;
-let perPerson = total / 8;
+let w_start = Number(document.getElementById("water_start").value);
+let w_end = Number(document.getElementById("water_end").value);
+let w_price = Number(document.getElementById("water_price").value);
+
+let electric = (e_end - e_start) * e_price;
+let water = (w_end - w_start) * w_price;
+
+let total = electric + water;
+
+let days = [];
+let totalDays = 0;
+
+for(let i=1;i<=8;i++){
+let d = Number(document.getElementById("day"+i).value);
+days.push(d);
+totalDays += d;
+}
 
 let resultHTML = `
-<h3>Tổng chi phí: ${total.toLocaleString()} VND</h3>
-<p>Mỗi người phải trả: <b>${perPerson.toLocaleString()} VND</b></p>
-
-<div class="member-list">
-<b>Chi tiết 8 thành viên:</b>
-<ul>
-<li>Thành viên 1: ${perPerson.toLocaleString()} VND</li>
-<li>Thành viên 2: ${perPerson.toLocaleString()} VND</li>
-<li>Thành viên 3: ${perPerson.toLocaleString()} VND</li>
-<li>Thành viên 4: ${perPerson.toLocaleString()} VND</li>
-<li>Thành viên 5: ${perPerson.toLocaleString()} VND</li>
-<li>Thành viên 6: ${perPerson.toLocaleString()} VND</li>
-<li>Thành viên 7: ${perPerson.toLocaleString()} VND</li>
-<li>Thành viên 8: ${perPerson.toLocaleString()} VND</li>
-</ul>
-</div>
+<h3>Tổng tiền điện: ${electric.toLocaleString()} VNĐ</h3>
+<h3>Tổng tiền nước: ${water.toLocaleString()} VNĐ</h3>
+<h3>Tổng chi phí: ${total.toLocaleString()} VNĐ</h3>
+<hr>
+<b>Chi tiết từng người:</b><br>
 `;
+
+for(let i=0;i<8;i++){
+
+let pay = (days[i]/totalDays)*total;
+
+resultHTML += `
+Thành viên ${i+1}: ${pay.toLocaleString()} VNĐ (${days[i]} ngày)<br>
+`;
+
+}
 
 document.getElementById("result").innerHTML = resultHTML;
 
