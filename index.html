@@ -3,12 +3,12 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Tính tiền điện nước phòng</title>
+<title>Chia tiền điện nước</title>
 
 <style>
 
 body{
-font-family: Arial, sans-serif;
+font-family: Arial;
 background:#f2f4f8;
 display:flex;
 justify-content:center;
@@ -18,33 +18,24 @@ padding:40px;
 .container{
 background:white;
 padding:30px;
-width:700px;
+width:600px;
 border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 h1{
 text-align:center;
-margin-bottom:20px;
-}
-
-.section{
-margin-bottom:25px;
-}
-
-label{
-font-weight:bold;
 }
 
 input{
 width:100%;
 padding:8px;
 margin:5px 0 10px 0;
-border:1px solid #ccc;
 border-radius:5px;
+border:1px solid #ccc;
 }
 
-.member-row{
+.member{
 display:grid;
 grid-template-columns:2fr 1fr;
 gap:10px;
@@ -66,24 +57,14 @@ button:hover{
 background:#1b5fbf;
 }
 
-.result{
-margin-top:20px;
-padding:15px;
-background:#eef2ff;
-border-radius:8px;
-}
-
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:10px;
-}
-
-table, th, td{
-border:1px solid #ddd;
+margin-top:15px;
 }
 
 th, td{
+border:1px solid #ddd;
 padding:8px;
 text-align:center;
 }
@@ -92,52 +73,28 @@ th{
 background:#f0f0f0;
 }
 
-</style>
-</head>
+.result{
+margin-top:20px;
+}
 
+</style>
+
+</head>
 <body>
 
 <div class="container">
 
-<h1>Tính tiền điện nước</h1>
+<h1>Chia tiền điện nước</h1>
 
-<div class="section">
+<label>Tổng tiền điện (VNĐ)</label>
+<input type="number" id="electric">
 
-<h3>Thông tin điện</h3>
+<label>Tổng tiền nước (VNĐ)</label>
+<input type="number" id="water">
 
-<label>Chỉ số điện đầu</label>
-<input type="number" id="electric_start">
-
-<label>Chỉ số điện cuối</label>
-<input type="number" id="electric_end">
-
-<label>Giá điện (VNĐ/kWh)</label>
-<input type="number" id="electric_price" value="2500">
-
-</div>
-
-<div class="section">
-
-<h3>Thông tin nước</h3>
-
-<label>Chỉ số nước đầu</label>
-<input type="number" id="water_start">
-
-<label>Chỉ số nước cuối</label>
-<input type="number" id="water_end">
-
-<label>Giá nước (VNĐ/m3)</label>
-<input type="number" id="water_price" value="10000">
-
-</div>
-
-<div class="section">
-
-<h3>Thành viên và số ngày ở</h3>
+<h3>Nhập tên và số ngày ở</h3>
 
 <div id="members"></div>
-
-</div>
 
 <button onclick="calculate()">Tính tiền</button>
 
@@ -153,7 +110,7 @@ let membersDiv = document.getElementById("members");
 for(let i=1;i<=8;i++){
 
 membersDiv.innerHTML += `
-<div class="member-row">
+<div class="member">
 <input type="text" placeholder="Tên thành viên ${i}" id="name${i}">
 <input type="number" placeholder="Ngày ở" id="day${i}">
 </div>
@@ -163,25 +120,14 @@ membersDiv.innerHTML += `
 
 function calculate(){
 
-let eStart = Number(document.getElementById("electric_start").value);
-let eEnd = Number(document.getElementById("electric_end").value);
-let ePrice = Number(document.getElementById("electric_price").value);
+let electric = Number(document.getElementById("electric").value);
+let water = Number(document.getElementById("water").value);
 
-let wStart = Number(document.getElementById("water_start").value);
-let wEnd = Number(document.getElementById("water_end").value);
-let wPrice = Number(document.getElementById("water_price").value);
+let total = electric + water;
 
-let electricUsed = eEnd - eStart;
-let waterUsed = wEnd - wStart;
-
-let electricMoney = electricUsed * ePrice;
-let waterMoney = waterUsed * wPrice;
-
-let total = electricMoney + waterMoney;
-
+let totalDays = 0;
 let names = [];
 let days = [];
-let totalDays = 0;
 
 for(let i=1;i<=8;i++){
 
@@ -195,10 +141,8 @@ totalDays += day;
 
 }
 
-let resultHTML = `
-<h3>Tổng tiền điện: ${electricMoney.toLocaleString()} VNĐ</h3>
-<h3>Tổng tiền nước: ${waterMoney.toLocaleString()} VNĐ</h3>
-<h3>Tổng chi phí: ${total.toLocaleString()} VNĐ</h3>
+let html = `
+<h3>Tổng tiền: ${total.toLocaleString()} VNĐ</h3>
 
 <table>
 <tr>
@@ -210,9 +154,9 @@ let resultHTML = `
 
 for(let i=0;i<8;i++){
 
-let pay = (days[i]/totalDays) * total;
+let pay = (days[i]/totalDays)*total;
 
-resultHTML += `
+html += `
 <tr>
 <td>${names[i]}</td>
 <td>${days[i]}</td>
@@ -222,9 +166,9 @@ resultHTML += `
 
 }
 
-resultHTML += "</table>";
+html += "</table>";
 
-document.getElementById("result").innerHTML = resultHTML;
+document.getElementById("result").innerHTML = html;
 
 }
 
