@@ -9,7 +9,7 @@
 
 body{
 font-family: Arial;
-background:#f2f4f8;
+background:#f4f6f9;
 display:flex;
 justify-content:center;
 padding:40px;
@@ -18,21 +18,29 @@ padding:40px;
 .container{
 background:white;
 padding:30px;
-width:600px;
+width:650px;
 border-radius:10px;
 box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 h1{
 text-align:center;
+margin-bottom:20px;
+}
+
+.box{
+border:2px solid #ddd;
+padding:15px;
+border-radius:8px;
+margin-bottom:20px;
 }
 
 input{
 width:100%;
 padding:8px;
 margin:5px 0 10px 0;
-border-radius:5px;
 border:1px solid #ccc;
+border-radius:5px;
 }
 
 .member{
@@ -45,16 +53,30 @@ margin-bottom:10px;
 button{
 width:100%;
 padding:12px;
-background:#2d89ef;
-color:white;
 border:none;
 border-radius:6px;
 font-size:16px;
 cursor:pointer;
 }
 
-button:hover{
-background:#1b5fbf;
+.calc-btn{
+background:#2d89ef;
+color:white;
+margin-top:10px;
+}
+
+.calc-btn:hover{
+background:#1c5fbf;
+}
+
+.print-btn{
+background:#e53935;
+color:white;
+margin-top:20px;
+}
+
+.print-btn:hover{
+background:#b71c1c;
 }
 
 table{
@@ -64,7 +86,7 @@ margin-top:15px;
 }
 
 th, td{
-border:1px solid #ddd;
+border:1px solid #999;
 padding:8px;
 text-align:center;
 }
@@ -73,18 +95,37 @@ th{
 background:#f0f0f0;
 }
 
-.result{
+.result-box{
+border:2px solid #333;
+padding:15px;
+border-radius:8px;
 margin-top:20px;
 }
 
-</style>
+@media print{
+button{
+display:none;
+}
+body{
+background:white;
+}
+.container{
+box-shadow:none;
+}
+}
 
+</style>
 </head>
+
 <body>
 
 <div class="container">
 
-<h1>Chia tiền điện nước</h1>
+<h1>TÍNH TIỀN ĐIỆN NƯỚC</h1>
+
+<div class="box">
+
+<h3>Thông tin hóa đơn</h3>
 
 <label>Tổng tiền điện (VNĐ)</label>
 <input type="number" id="electric">
@@ -92,13 +133,22 @@ margin-top:20px;
 <label>Tổng tiền nước (VNĐ)</label>
 <input type="number" id="water">
 
-<h3>Nhập tên và số ngày ở</h3>
+</div>
+
+
+<div class="box">
+
+<h3>Danh sách thành viên</h3>
 
 <div id="members"></div>
 
-<button onclick="calculate()">Tính tiền</button>
+</div>
 
-<div class="result" id="result"></div>
+<button class="calc-btn" onclick="calculate()">Tính tiền</button>
+
+<div class="result-box" id="result"></div>
+
+<button class="print-btn" onclick="window.print()">IN / LƯU PDF</button>
 
 </div>
 
@@ -142,13 +192,15 @@ totalDays += day;
 }
 
 let html = `
-<h3>Tổng tiền: ${total.toLocaleString()} VNĐ</h3>
+<h3>Tổng tiền điện: ${electric.toLocaleString()} VNĐ</h3>
+<h3>Tổng tiền nước: ${water.toLocaleString()} VNĐ</h3>
+<h3>Tổng chi phí: ${total.toLocaleString()} VNĐ</h3>
 
 <table>
 <tr>
 <th>Thành viên</th>
 <th>Ngày ở</th>
-<th>Số tiền</th>
+<th>Số tiền phải trả</th>
 </tr>
 `;
 
