@@ -1,231 +1,392 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Chia tiền điện nước</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎂 Happy Birthday 🎉</title>
 
 <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
 
 body{
-font-family: Arial;
-background:#f4f6f9;
-display:flex;
-justify-content:center;
-padding:40px;
+    overflow-x:hidden;
+    background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fad0c4,#a18cd1,#fbc2eb);
+    background-size:400% 400%;
+    animation:bg 12s ease infinite;
+    color:white;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
 }
 
 .container{
-background:white;
-padding:30px;
-width:650px;
-border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+.card{
+    width:90%;
+    max-width:750px;
+    padding:45px;
+    border-radius:25px;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(18px);
+    box-shadow:0 10px 35px rgba(0,0,0,.25);
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
 }
 
 h1{
-text-align:center;
-margin-bottom:20px;
+    font-size:55px;
+    margin-bottom:15px;
+    animation:glow 2s infinite alternate;
 }
 
-.box{
-border:2px solid #ddd;
-padding:15px;
-border-radius:8px;
-margin-bottom:20px;
+@keyframes glow{
+    from{text-shadow:0 0 10px white;}
+    to{text-shadow:0 0 30px yellow,0 0 50px orange;}
 }
 
-input{
-width:100%;
-padding:8px;
-margin:5px 0 10px 0;
-border:1px solid #ccc;
-border-radius:5px;
+.subtitle{
+    font-size:24px;
+    margin-bottom:30px;
 }
 
-.member{
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:10px;
-margin-bottom:10px;
+.message{
+    line-height:1.9;
+    font-size:20px;
 }
 
-button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:6px;
-font-size:16px;
-cursor:pointer;
+.btn{
+    margin-top:35px;
+    padding:15px 35px;
+    border:none;
+    border-radius:40px;
+    background:white;
+    color:#ff4b7d;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.4s;
 }
 
-.calc-btn{
-background:#2d89ef;
-color:white;
-margin-top:10px;
+.btn:hover{
+    transform:scale(1.1);
+    background:#ffe600;
 }
 
-.calc-btn:hover{
-background:#1c5fbf;
+.balloon{
+    position:fixed;
+    bottom:-150px;
+    width:45px;
+    height:60px;
+    border-radius:50%;
+    animation:rise linear infinite;
+    opacity:.9;
 }
 
-.print-btn{
-background:#e53935;
-color:white;
-margin-top:20px;
+.balloon::after{
+    content:"";
+    position:absolute;
+    width:2px;
+    height:60px;
+    background:white;
+    left:50%;
+    top:58px;
 }
 
-.print-btn:hover{
-background:#b71c1c;
+@keyframes rise{
+    from{
+        transform:translateY(0);
+    }
+    to{
+        transform:translateY(-120vh);
+    }
 }
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
+canvas{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
 }
 
-th, td{
-border:1px solid #999;
-padding:8px;
-text-align:center;
+.footer{
+    margin-top:30px;
+    font-size:18px;
+    opacity:.9;
 }
 
-th{
-background:#f0f0f0;
+.popup{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.5);
 }
 
-.result-box{
-border:2px solid #333;
-padding:15px;
-border-radius:8px;
-margin-top:20px;
+.popup-box{
+    background:white;
+    color:#444;
+    padding:35px;
+    border-radius:20px;
+    width:90%;
+    max-width:500px;
+    animation:zoom .5s;
+    text-align:center;
 }
 
-@media print{
-button{
-display:none;
-}
-body{
-background:white;
-}
-.container{
-box-shadow:none;
-}
+.popup h2{
+    color:#ff4081;
+    margin-bottom:15px;
 }
 
+.popup button{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    background:#ff4081;
+    color:white;
+    cursor:pointer;
+}
+
+@keyframes zoom{
+    from{
+        transform:scale(.5);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.music{
+    position:fixed;
+    top:20px;
+    right:20px;
+    font-size:30px;
+    cursor:pointer;
+    animation:spin 5s linear infinite;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@media(max-width:768px){
+    h1{
+        font-size:38px;
+    }
+    .message{
+        font-size:18px;
+    }
+}
 </style>
-</head>
 
+</head>
 <body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="music">🎵</div>
 
 <div class="container">
 
-<h1>TÍNH TIỀN ĐIỆN NƯỚC</h1>
+<div class="card">
 
-<div class="box">
+<h1>🎂 Happy Birthday 🎉</h1>
 
-<h3>Thông tin hóa đơn</h3>
+<div class="subtitle">
+Chúc mừng sinh nhật <b>Người Bạn Đặc Biệt!</b>
+</div>
 
-<label>Tổng tiền điện (VNĐ)</label>
-<input type="number" id="electric">
+<div class="message">
+Hôm nay là một ngày thật ý nghĩa. <br><br>
 
-<label>Tổng tiền nước (VNĐ)</label>
-<input type="number" id="water">
+🎁 Chúc bạn luôn mạnh khỏe, hạnh phúc và tràn đầy năng lượng.<br>
+
+🌈 Mong mọi ước mơ của bạn sẽ sớm trở thành hiện thực.<br>
+
+💖 Luôn giữ nụ cười trên môi và gặp thật nhiều may mắn trong cuộc sống.<br>
+
+🚀 Chúc bạn thành công trong học tập, công việc và đạt được mọi mục tiêu mình theo đuổi.<br>
+
+🥳 Hy vọng tuổi mới sẽ mang đến thật nhiều niềm vui, những chuyến đi thú vị và những kỷ niệm thật đẹp!
+
+<br><br>
+
+<b>Happy Birthday! 🎂🎉🎈</b>
 
 </div>
 
+<button class="btn" onclick="showWish()">
+🎁 Mở Lời Chúc Bí Mật
+</button>
 
-<div class="box">
-
-<h3>Danh sách thành viên</h3>
-
-<div id="members"></div>
+<div class="footer">
+Made with ❤️ for my best friend
+</div>
 
 </div>
 
-<button class="calc-btn" onclick="calculate()">Tính tiền</button>
-
-<div class="result-box" id="result"></div>
-
-<button class="print-btn" onclick="window.print()">IN / LƯU PDF</button>
-
 </div>
 
+<div class="popup" id="popup">
+<div class="popup-box">
+<h2>🎉 Surprise 🎉</h2>
+
+<p style="font-size:18px;line-height:1.8">
+
+Cảm ơn vì đã trở thành một người bạn tuyệt vời! ❤️<br><br>
+
+Hy vọng dù sau này có bận rộn đến đâu,
+chúng ta vẫn sẽ có thật nhiều dịp gặp nhau,
+cùng cười, cùng chia sẻ và tạo nên thêm thật nhiều kỷ niệm đẹp.
+
+<br><br>
+
+🎂 Chúc bạn tuổi mới luôn bình an, hạnh phúc và thành công!
+
+</p>
+
+<button onclick="closeWish()">
+Đóng
+</button>
+
+</div>
+</div>
 
 <script>
 
-let membersDiv = document.getElementById("members");
+//=========================
+// Balloons
+//=========================
+const colors=["#ff4081","#00bcd4","#4caf50","#ffeb3b","#ff9800","#9c27b0"];
 
-for(let i=1;i<=8;i++){
+for(let i=0;i<35;i++){
 
-membersDiv.innerHTML += `
-<div class="member">
-<input type="text" placeholder="Tên thành viên ${i}" id="name${i}">
-<input type="number" placeholder="Ngày ở" id="day${i}">
-</div>
-`;
+let b=document.createElement("div");
+b.className="balloon";
 
-}
+let size=30+Math.random()*30;
 
-function calculate(){
+b.style.width=size+"px";
+b.style.height=size*1.3+"px";
+b.style.left=Math.random()*100+"vw";
+b.style.background=colors[Math.floor(Math.random()*colors.length)];
+b.style.animationDuration=(8+Math.random()*8)+"s";
+b.style.animationDelay=Math.random()*6+"s";
 
-let electric = Number(document.getElementById("electric").value);
-let water = Number(document.getElementById("water").value);
-
-let total = electric + water;
-
-let totalDays = 0;
-let names = [];
-let days = [];
-
-for(let i=1;i<=8;i++){
-
-let name = document.getElementById("name"+i).value || "TV"+i;
-let day = Number(document.getElementById("day"+i).value);
-
-names.push(name);
-days.push(day);
-
-totalDays += day;
+document.body.appendChild(b);
 
 }
 
-let html = `
-<h3>Tổng tiền điện: ${electric.toLocaleString()} VNĐ</h3>
-<h3>Tổng tiền nước: ${water.toLocaleString()} VNĐ</h3>
-<h3>Tổng chi phí: ${total.toLocaleString()} VNĐ</h3>
+//=========================
+// Popup
+//=========================
+function showWish(){
+document.getElementById("popup").style.display="flex";
+}
 
-<table>
-<tr>
-<th>Thành viên</th>
-<th>Ngày ở</th>
-<th>Số tiền phải trả</th>
-</tr>
-`;
+function closeWish(){
+document.getElementById("popup").style.display="none";
+}
 
-for(let i=0;i<8;i++){
+//=========================
+// Fireworks
+//=========================
 
-let pay = (days[i]/totalDays)*total;
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
 
-html += `
-<tr>
-<td>${names[i]}</td>
-<td>${days[i]}</td>
-<td>${pay.toLocaleString()} VNĐ</td>
-</tr>
-`;
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+resize();
+window.onresize=resize;
+
+let particles=[];
+
+function firework(){
+
+let x=Math.random()*canvas.width;
+let y=Math.random()*canvas.height*0.6;
+
+for(let i=0;i<60;i++){
+
+particles.push({
+
+x:x,
+y:y,
+
+dx:(Math.random()-0.5)*8,
+dy:(Math.random()-0.5)*8,
+
+life:100,
+
+color:`hsl(${Math.random()*360},100%,60%)`
+
+});
 
 }
 
-html += "</table>";
+}
 
-document.getElementById("result").innerHTML = html;
+setInterval(firework,1200);
+
+function animate(){
+
+ctx.fillStyle="rgba(0,0,0,.08)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+particles.forEach((p,index)=>{
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,3,0,Math.PI*2);
+ctx.fillStyle=p.color;
+ctx.fill();
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+p.dy+=0.03;
+
+p.life--;
+
+if(p.life<=0){
+particles.splice(index,1);
+}
+
+});
+
+requestAnimationFrame(animate);
 
 }
+
+animate();
 
 </script>
 
 </body>
 </html>
-
