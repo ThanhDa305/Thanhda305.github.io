@@ -1,392 +1,119 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎂 Happy Birthday 🎉</title>
+<section class="hero">
+    <div class="hero-content">
+
+        <h3>🎉 Welcome 🎉</h3>
+
+        <h1>Chào mừng bạn đến với Website</h1>
+
+        <p>
+            Xin chào và cảm ơn bạn đã ghé thăm! 💖<br>
+            Đây là một góc nhỏ được tạo ra với tất cả sự chân thành,
+            lưu giữ những lời chúc, những khoảnh khắc đẹp
+            và gửi gắm những điều tốt đẹp nhất đến người bạn đặc biệt.
+        </p>
+
+        <a href="#birthday" class="hero-btn">
+            🎂 Khám phá ngay
+        </a>
+
+    </div>
+</section>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Segoe UI",sans-serif;
+
+html{
+    scroll-behavior:smooth;
 }
 
-body{
-    overflow-x:hidden;
-    background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fad0c4,#a18cd1,#fbc2eb);
-    background-size:400% 400%;
-    animation:bg 12s ease infinite;
-    color:white;
-}
-
-@keyframes bg{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
-
-.container{
-    min-height:100vh;
+.hero{
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    flex-direction:column;
     text-align:center;
+    background:
+    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+    linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
+    background-size:300% 300%;
+    animation:bgMove 10s infinite alternate;
+    color:white;
     padding:20px;
 }
 
-.card{
-    width:90%;
-    max-width:750px;
-    padding:45px;
-    border-radius:25px;
-    background:rgba(255,255,255,.15);
-    backdrop-filter:blur(18px);
-    box-shadow:0 10px 35px rgba(0,0,0,.25);
-    animation:float 4s ease-in-out infinite;
+@keyframes bgMove{
+    0%{background-position:left;}
+    100%{background-position:right;}
 }
 
-@keyframes float{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-12px);}
+.hero-content{
+    max-width:800px;
+    animation:fadeUp 1.5s ease;
 }
 
-h1{
-    font-size:55px;
-    margin-bottom:15px;
-    animation:glow 2s infinite alternate;
+.hero h3{
+    font-size:28px;
+    margin-bottom:10px;
+    letter-spacing:3px;
 }
 
-@keyframes glow{
-    from{text-shadow:0 0 10px white;}
-    to{text-shadow:0 0 30px yellow,0 0 50px orange;}
+.hero h1{
+    font-size:64px;
+    margin-bottom:25px;
+    text-shadow:0 0 20px rgba(255,255,255,.7);
 }
 
-.subtitle{
-    font-size:24px;
-    margin-bottom:30px;
+.hero p{
+    font-size:22px;
+    line-height:1.8;
+    margin-bottom:40px;
 }
 
-.message{
-    line-height:1.9;
-    font-size:20px;
-}
-
-.btn{
-    margin-top:35px;
-    padding:15px 35px;
-    border:none;
-    border-radius:40px;
+.hero-btn{
+    display:inline-block;
+    padding:16px 40px;
+    border-radius:50px;
     background:white;
-    color:#ff4b7d;
-    font-size:18px;
+    color:#ff4081;
+    text-decoration:none;
+    font-size:20px;
     font-weight:bold;
-    cursor:pointer;
     transition:.4s;
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
 }
 
-.btn:hover{
-    transform:scale(1.1);
+.hero-btn:hover{
+    transform:translateY(-5px) scale(1.08);
     background:#ffe600;
 }
 
-.balloon{
-    position:fixed;
-    bottom:-150px;
-    width:45px;
-    height:60px;
-    border-radius:50%;
-    animation:rise linear infinite;
-    opacity:.9;
-}
+@keyframes fadeUp{
 
-.balloon::after{
-    content:"";
-    position:absolute;
-    width:2px;
-    height:60px;
-    background:white;
-    left:50%;
-    top:58px;
-}
-
-@keyframes rise{
     from{
+        opacity:0;
+        transform:translateY(60px);
+    }
+
+    to{
+        opacity:1;
         transform:translateY(0);
     }
-    to{
-        transform:translateY(-120vh);
-    }
-}
 
-canvas{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-}
-
-.footer{
-    margin-top:30px;
-    font-size:18px;
-    opacity:.9;
-}
-
-.popup{
-    position:fixed;
-    inset:0;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    background:rgba(0,0,0,.5);
-}
-
-.popup-box{
-    background:white;
-    color:#444;
-    padding:35px;
-    border-radius:20px;
-    width:90%;
-    max-width:500px;
-    animation:zoom .5s;
-    text-align:center;
-}
-
-.popup h2{
-    color:#ff4081;
-    margin-bottom:15px;
-}
-
-.popup button{
-    margin-top:20px;
-    padding:12px 25px;
-    border:none;
-    border-radius:30px;
-    background:#ff4081;
-    color:white;
-    cursor:pointer;
-}
-
-@keyframes zoom{
-    from{
-        transform:scale(.5);
-        opacity:0;
-    }
-    to{
-        transform:scale(1);
-        opacity:1;
-    }
-}
-
-.music{
-    position:fixed;
-    top:20px;
-    right:20px;
-    font-size:30px;
-    cursor:pointer;
-    animation:spin 5s linear infinite;
-}
-
-@keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
 }
 
 @media(max-width:768px){
-    h1{
-        font-size:38px;
-    }
-    .message{
-        font-size:18px;
-    }
+
+.hero h1{
+    font-size:42px;
 }
+
+.hero p{
+    font-size:18px;
+}
+
+.hero h3{
+    font-size:22px;
+}
+
+}
+
 </style>
-
-</head>
-<body>
-
-<canvas id="fireworks"></canvas>
-
-<div class="music">🎵</div>
-
-<div class="container">
-
-<div class="card">
-
-<h1>🎂 Happy Birthday 🎉</h1>
-
-<div class="subtitle">
-Chúc mừng sinh nhật <b>Người Bạn Đặc Biệt!</b>
-</div>
-
-<div class="message">
-Hôm nay là một ngày thật ý nghĩa. <br><br>
-
-🎁 Chúc bạn luôn mạnh khỏe, hạnh phúc và tràn đầy năng lượng.<br>
-
-🌈 Mong mọi ước mơ của bạn sẽ sớm trở thành hiện thực.<br>
-
-💖 Luôn giữ nụ cười trên môi và gặp thật nhiều may mắn trong cuộc sống.<br>
-
-🚀 Chúc bạn thành công trong học tập, công việc và đạt được mọi mục tiêu mình theo đuổi.<br>
-
-🥳 Hy vọng tuổi mới sẽ mang đến thật nhiều niềm vui, những chuyến đi thú vị và những kỷ niệm thật đẹp!
-
-<br><br>
-
-<b>Happy Birthday! 🎂🎉🎈</b>
-
-</div>
-
-<button class="btn" onclick="showWish()">
-🎁 Mở Lời Chúc Bí Mật
-</button>
-
-<div class="footer">
-Made with ❤️ for my best friend
-</div>
-
-</div>
-
-</div>
-
-<div class="popup" id="popup">
-<div class="popup-box">
-<h2>🎉 Surprise 🎉</h2>
-
-<p style="font-size:18px;line-height:1.8">
-
-Cảm ơn vì đã trở thành một người bạn tuyệt vời! ❤️<br><br>
-
-Hy vọng dù sau này có bận rộn đến đâu,
-chúng ta vẫn sẽ có thật nhiều dịp gặp nhau,
-cùng cười, cùng chia sẻ và tạo nên thêm thật nhiều kỷ niệm đẹp.
-
-<br><br>
-
-🎂 Chúc bạn tuổi mới luôn bình an, hạnh phúc và thành công!
-
-</p>
-
-<button onclick="closeWish()">
-Đóng
-</button>
-
-</div>
-</div>
-
-<script>
-
-//=========================
-// Balloons
-//=========================
-const colors=["#ff4081","#00bcd4","#4caf50","#ffeb3b","#ff9800","#9c27b0"];
-
-for(let i=0;i<35;i++){
-
-let b=document.createElement("div");
-b.className="balloon";
-
-let size=30+Math.random()*30;
-
-b.style.width=size+"px";
-b.style.height=size*1.3+"px";
-b.style.left=Math.random()*100+"vw";
-b.style.background=colors[Math.floor(Math.random()*colors.length)];
-b.style.animationDuration=(8+Math.random()*8)+"s";
-b.style.animationDelay=Math.random()*6+"s";
-
-document.body.appendChild(b);
-
-}
-
-//=========================
-// Popup
-//=========================
-function showWish(){
-document.getElementById("popup").style.display="flex";
-}
-
-function closeWish(){
-document.getElementById("popup").style.display="none";
-}
-
-//=========================
-// Fireworks
-//=========================
-
-const canvas=document.getElementById("fireworks");
-const ctx=canvas.getContext("2d");
-
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-resize();
-window.onresize=resize;
-
-let particles=[];
-
-function firework(){
-
-let x=Math.random()*canvas.width;
-let y=Math.random()*canvas.height*0.6;
-
-for(let i=0;i<60;i++){
-
-particles.push({
-
-x:x,
-y:y,
-
-dx:(Math.random()-0.5)*8,
-dy:(Math.random()-0.5)*8,
-
-life:100,
-
-color:`hsl(${Math.random()*360},100%,60%)`
-
-});
-
-}
-
-}
-
-setInterval(firework,1200);
-
-function animate(){
-
-ctx.fillStyle="rgba(0,0,0,.08)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-particles.forEach((p,index)=>{
-
-ctx.beginPath();
-ctx.arc(p.x,p.y,3,0,Math.PI*2);
-ctx.fillStyle=p.color;
-ctx.fill();
-
-p.x+=p.dx;
-p.y+=p.dy;
-
-p.dy+=0.03;
-
-p.life--;
-
-if(p.life<=0){
-particles.splice(index,1);
-}
-
-});
-
-requestAnimationFrame(animate);
-
-}
-
-animate();
-
-</script>
-
-</body>
-</html>
