@@ -1,306 +1,212 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>For Someone Special ❤️</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Segoe UI,sans-serif;
-}
-
-body{
-
-background:
-radial-gradient(circle at top,#1f1f3f,#090914);
-
-height:100vh;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-overflow:hidden;
-
-color:white;
-
-}
-
-/* Stars */
-
-.star{
-
-position:absolute;
-
-width:2px;
-height:2px;
-
-background:white;
-
-border-radius:50%;
-
-animation:blink 2s infinite;
-
-}
-
-@keyframes blink{
-
-50%{
-
-opacity:.2;
-
-}
-
-}
-
-.container{
-
-text-align:center;
-
-z-index:10;
-
-}
-
-/* Envelope */
-
-.envelope{
-
-margin:auto;
-
-width:180px;
-height:120px;
-
-background:#fff;
-
-position:relative;
-
-cursor:pointer;
-
-transition:.5s;
-
-border-radius:6px;
-
-box-shadow:0 20px 50px rgba(0,0,0,.4);
-
-}
-
-.envelope:hover{
-
-transform:translateY(-10px);
-
-}
-
-.envelope:before{
-
-content:"";
-
-position:absolute;
-
-border-left:90px solid transparent;
-border-right:90px solid transparent;
-border-top:60px solid #f2dede;
-
-top:0;
-
-left:0;
-
-transform-origin:top;
-
-transition:.8s;
-
-}
-
-.open:before{
-
-transform:rotateX(180deg);
-
-}
-
-.letter{
-
-position:absolute;
-
-left:10px;
-right:10px;
-bottom:10px;
-
-height:90px;
-
-background:white;
-
-padding:15px;
-
-border-radius:5px;
-
-color:#444;
-
-transform:translateY(0);
-
-transition:.8s;
-
-overflow:hidden;
-
-}
-
-.open .letter{
-
-transform:translateY(-90px);
-
-height:300px;
-
-}
-
-h1{
-
-margin-bottom:30px;
-
-font-weight:300;
-
-letter-spacing:2px;
-
-}
-
-#typing{
-
-margin-top:15px;
-
-font-size:18px;
-
-line-height:1.8;
-
-white-space:pre-line;
-
-}
-
-button{
-
-margin-top:30px;
-
-padding:15px 35px;
-
-border:none;
-
-border-radius:40px;
-
-background:#ff4f81;
-
-color:white;
-
-font-size:18px;
-
-cursor:pointer;
-
-display:none;
-
-transition:.3s;
-
-}
-
-button:hover{
-
-transform:scale(1.08);
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi tặng cậu...</title>
+    <style>
+        /* CSS reset cơ bản */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* Màn hình đen */
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; /* Ẩn thanh cuộn */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: background-color 1s ease;
+        }
+
+        /* Vùng chứa phần Intro */
+        #intro-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* Chữ chạy từng dòng */
+        #text-display {
+            font-size: 1.8rem;
+            font-weight: 300;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            padding: 0 20px;
+            letter-spacing: 1px;
+        }
+
+        /* Màn hình hiển thị Tên và nút Bắt đầu */
+        #final-screen {
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            display: none; /* Sẽ được bật bằng JS */
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #receiver-name {
+            font-size: 5rem; /* Tên hiển thị cực lớn */
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #start-btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+            background-color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        #start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.6);
+        }
+
+        /* Vùng chứa Website chính (Ẩn lúc đầu) */
+        #main-content {
+            opacity: 0;
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: #fff; /* Nền của website chính */
+            color: #333;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-in-out;
+            overflow-y: auto;
+        }
+
+        /* -------------------------------------
+           BẠN CÓ THỂ VIẾT CSS CHO WEB CHÍNH Ở ĐÂY
+           ------------------------------------- */
+        .main-title {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+        .main-message {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+    </style>
 </head>
-
 <body>
 
-<div class="container">
+    <!-- PHẦN INTRO MÀN HÌNH ĐEN -->
+    <div id="intro-container">
+        <div id="text-display"></div>
+        
+        <div id="final-screen">
+            <!-- THAY ĐỔI TÊN NGƯỜI NHẬN Ở ĐÂY -->
+            <h1 id="receiver-name">TÊN NGƯỜI NHẬN</h1>
+            <button id="start-btn">Bắt đầu</button>
+        </div>
+    </div>
 
-<h1>✨ Bạn có một bức thư chưa được mở...</h1>
+    <!-- PHẦN WEBSITE SINH NHẬT CHÍNH -->
+    <div id="main-content">
+        <!-- BẠN THIẾT KẾ GIAO DIỆN CHÍNH CỦA WEBSITE VÀO ĐÂY -->
+        <h1 class="main-title">Chúc Mừng Sinh Nhật! 🎉</h1>
+        <p class="main-message">
+            Đây là không gian dành cho website sinh nhật chính của bạn. 
+            Bạn có thể chèn thêm ảnh, video, nhạc hoặc những lời chúc dài hơn ở dưới này nhé!
+        </p>
+    </div>
 
-<div class="envelope" onclick="openLetter()" id="env">
+    <!-- SCRIPT CHẠY HIỆU ỨNG -->
+    <script>
+        // Kịch bản các dòng chữ
+        const texts = [
+            "Xin chào...",
+            "Nếu bạn đang đọc được dòng này...",
+            "Có lẽ mình đã chuẩn bị điều này khá lâu.",
+            "Tặng riêng cho..."
+        ];
 
-<div class="letter">
+        const textDisplay = document.getElementById('text-display');
+        const finalScreen = document.getElementById('final-screen');
+        const introContainer = document.getElementById('intro-container');
+        const mainContent = document.getElementById('main-content');
+        const startBtn = document.getElementById('start-btn');
 
-<div id="typing"></div>
+        let currentIndex = 0;
 
-</div>
+        function showNextText() {
+            if (currentIndex < texts.length) {
+                // Hiển thị nội dung chữ
+                textDisplay.textContent = texts[currentIndex];
+                // Fade in
+                textDisplay.style.opacity = 1;
+                
+                // Đợi 2.5s rồi Fade out
+                setTimeout(() => {
+                    textDisplay.style.opacity = 0;
+                    currentIndex++;
+                    
+                    // Đợi 1s cho chữ mờ hẳn rồi mới gọi dòng tiếp theo
+                    setTimeout(showNextText, 1000); 
+                }, 2500); 
+            } else {
+                // Đã chạy hết mảng chữ, ẩn thẻ hiển thị chữ đi
+                textDisplay.style.display = 'none';
+                
+                // Hiển thị màn hình có TÊN và NÚT BẤM
+                finalScreen.style.display = 'flex';
+                // Delay 1 xíu để CSS nhận diện display: flex trước khi chạy transition opacity
+                setTimeout(() => {
+                    finalScreen.style.opacity = 1;
+                }, 100);
+            }
+        }
 
-</div>
+        // Bắt đầu chạy hiệu ứng sau khi trang web load 1 giây
+        setTimeout(showNextText, 1000);
 
-<button id="next">
+        // Sự kiện khi bấm nút "Bắt đầu"
+        startBtn.addEventListener('click', () => {
+            // Fade out toàn bộ màn hình intro
+            introContainer.style.opacity = 0;
+            
+            setTimeout(() => {
+                introContainer.style.display = 'none'; // Ẩn hẳn màn hình intro
+                
+                // Hiện giao diện Website Chính
+                document.body.style.backgroundColor = "#fff"; // Đổi nền body thành trắng
+                mainContent.style.display = 'flex';
+                
+                setTimeout(() => {
+                    mainContent.style.opacity = 1; // Fade in giao diện chính
+                }, 100);
 
-Tiếp tục 🎂
-
-</button>
-
-</div>
-
-<script>
-
-// Stars
-
-for(let i=0;i<150;i++){
-
-let s=document.createElement("div");
-
-s.className="star";
-
-s.style.left=Math.random()*100+"vw";
-s.style.top=Math.random()*100+"vh";
-
-s.style.animationDelay=Math.random()*2+"s";
-
-document.body.appendChild(s);
-
-}
-
-const text=`Xin chào...
-
-Có lẽ bạn đang tự hỏi
-vì sao mình lại tạo ra website này.
-
-Thật ra...
-
-Đây không đơn giản là
-một lời chúc sinh nhật.
-
-Mình chỉ muốn cảm ơn
-vì đã xuất hiện trong cuộc đời mình.
-
-❤️`;
-
-let i=0;
-
-function openLetter(){
-
-document.getElementById("env").classList.add("open");
-
-typing();
-
-}
-
-function typing(){
-
-if(i<text.length){
-
-document.getElementById("typing").innerHTML+=text.charAt(i);
-
-i++;
-
-setTimeout(typing,40);
-
-}else{
-
-document.getElementById("next").style.display="inline-block";
-
-}
-
-}
-
-</script>
-
+            }, 1000); // Chờ 1s cho intro mờ hẳn
+        });
+    </script>
 </body>
-
 </html>
