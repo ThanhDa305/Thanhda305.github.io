@@ -3,209 +3,555 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi tặng cậu...</title>
+    <title>Thiệp Mời Lễ Tốt Nghiệp | Nguyễn Thanh Đa</title>
+    
+    <!-- Import Fonts: Playfair Display for elegant headings, Montserrat for clean text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
+
     <style>
-        /* CSS reset cơ bản */
+        /* CSS Reset & Variables */
+        :root {
+            --primary-bg: #060b19;
+            --secondary-bg: #111e3c;
+            --gold: #D4AF37;
+            --gold-light: #f9e596;
+            --gold-dark: #aa8c2c;
+            --text-light: #f5f6fa;
+            --glass-bg: rgba(17, 30, 60, 0.6);
+            --glass-border: rgba(212, 175, 55, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            background-color: #000; /* Màn hình đen */
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; /* Ẩn thanh cuộn */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow: hidden; /* Prevent scrolling to keep app-like feel */
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            transition: background-color 1s ease;
+            position: relative;
         }
 
-        /* Vùng chứa phần Intro */
-        #intro-container {
+        /* Floating Background Particles (Orbs/Stars) */
+        #particles {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--gold-light) 0%, transparent 70%);
+            opacity: 0.4;
+            animation: floatUp infinite linear;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% {
+                transform: translateY(-20vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Container for Screens */
+        .screen {
+            position: absolute;
+            width: 90%;
+            max-width: 500px;
+            z-index: 10;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 10;
-            transition: opacity 1s ease-in-out;
+            justify-content: center;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        /* Chữ chạy từng dòng */
-        #text-display {
-            font-size: 1.8rem;
-            font-weight: 300;
+        .hidden-screen {
             opacity: 0;
-            transition: opacity 1s ease-in-out;
-            padding: 0 20px;
+            pointer-events: none;
+            transform: scale(0.8) translateY(50px);
+            visibility: hidden;
+        }
+
+        .active-screen {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+            visibility: visible;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative Corners */
+        .glass-card::before, .glass-card::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--gold);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+        .glass-card::before {
+            top: 15px; left: 15px;
+            border-bottom: none; border-right: none;
+        }
+        .glass-card::after {
+            bottom: 15px; right: 15px;
+            border-top: none; border-left: none;
+        }
+
+        /* Typography */
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
             letter-spacing: 1px;
         }
 
-        /* Màn hình hiển thị Tên và nút Bắt đầu */
-        #final-screen {
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            display: none; /* Sẽ được bật bằng JS */
-            flex-direction: column;
-            align-items: center;
+        .subtitle {
+            font-size: 0.9rem;
+            color: #b2bec3;
+            margin-bottom: 30px;
+            font-weight: 300;
         }
 
-        #receiver-name {
-            font-size: 5rem; /* Tên hiển thị cực lớn */
-            font-weight: bold;
-            margin-bottom: 40px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        #start-btn {
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #000;
-            background-color: #fff;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-        }
-
-        #start-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255,255,255,0.6);
-        }
-
-        /* Vùng chứa Website chính (Ẩn lúc đầu) */
-        #main-content {
-            opacity: 0;
-            display: none;
+        /* Screen 1 specific */
+        .input-group {
             width: 100%;
-            height: 100%;
-            background-color: #fff; /* Nền của website chính */
-            color: #333;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease-in-out;
-            overflow-y: auto;
+            margin-bottom: 25px;
+            position: relative;
         }
 
-        /* -------------------------------------
-           BẠN CÓ THỂ VIẾT CSS CHO WEB CHÍNH Ở ĐÂY
-           ------------------------------------- */
-        .main-title {
-            font-size: 3rem;
+        input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3), inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .error-text {
             color: #ff6b6b;
-            margin-bottom: 20px;
-        }
-        .main-message {
-            font-size: 1.2rem;
-            max-width: 600px;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            position: absolute;
+            width: 100%;
+            text-align: center;
         }
 
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+            border-color: #ff6b6b !important;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* Button Styling */
+        button {
+            background: linear-gradient(45deg, var(--gold-dark), var(--gold), var(--gold-light));
+            background-size: 200% auto;
+            color: var(--primary-bg);
+            border: none;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            animation: glow-pulse 2s infinite;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-position: right center;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        /* SVG Icon styling */
+        .grad-icon {
+            width: 80px;
+            height: 80px;
+            fill: var(--gold);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+            animation: float-icon 3s ease-in-out infinite;
+        }
+
+        @keyframes float-icon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Screen 2 specific */
+        .invitation-header {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #dcdde1;
+        }
+
+        .guest-name-display {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 25px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            text-shadow: 0 0 15px rgba(255,255,255, 0.5);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 15px;
+            display: inline-block;
+            min-width: 60%;
+        }
+
+        .host-info {
+            margin-bottom: 25px;
+        }
+        
+        .host-title {
+            font-size: 0.9rem;
+            color: #dcdde1;
+            margin-bottom: 5px;
+        }
+
+        .host-name {
+            font-size: 1.8rem;
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .event-details {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+            border-left: 3px solid var(--gold);
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-icon {
+            width: 20px;
+            height: 20px;
+            fill: var(--gold);
+            margin-right: 15px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .detail-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #f5f6fa;
+        }
+        
+        .detail-text strong {
+            color: var(--gold-light);
+            font-weight: 500;
+        }
+
+        .wishes {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic;
+            color: #dcdde1;
+            position: relative;
+            padding: 0 15px;
+        }
+
+        .wishes::before, .wishes::after {
+            content: '"';
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: rgba(212, 175, 55, 0.4);
+            position: absolute;
+        }
+
+        .wishes::before {
+            top: -10px; left: -5px;
+        }
+        
+        .wishes::after {
+            bottom: -25px; right: -5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .glass-card {
+                padding: 30px 20px;
+            }
+            h1 { font-size: 1.8rem; }
+            .guest-name-display { font-size: 2rem; }
+            .host-name { font-size: 1.5rem; }
+            .detail-text, .wishes { font-size: 0.85rem; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- PHẦN INTRO MÀN HÌNH ĐEN -->
-    <div id="intro-container">
-        <div id="text-display"></div>
-        
-        <div id="final-screen">
-            <!-- THAY ĐỔI TÊN NGƯỜI NHẬN Ở ĐÂY -->
-            <h1 id="receiver-name">TÊN NGƯỜI NHẬN</h1>
-            <button id="start-btn">Bắt đầu</button>
+    <!-- Background Orbs -->
+    <div id="particles"></div>
+
+    <!-- SCREEN 1: Input Name -->
+    <div id="screen1" class="screen active-screen">
+        <div class="glass-card">
+            <!-- Graduation Cap SVG Icon -->
+            <svg class="grad-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3L1 9L5 11.18V17.18C5 18.25 8.13 20 12 20C15.87 20 19 18.25 19 17.18V11.18L21 10.09V17H23V9L12 3ZM17 17.18C17 17.58 14.88 18 12 18C9.12 18 7 17.58 7 17.18V12.27L12 15L17 12.27V17.18ZM12 12.82L3.18 9L12 5.18L20.82 9L12 12.82Z"/>
+            </svg>
+            
+            <h1>Lễ Tốt Nghiệp</h1>
+            <p class="subtitle">Vui lòng nhập tên của bạn để mở thiệp</p>
+            
+            <div class="input-group">
+                <input type="text" id="guestNameInput" placeholder="Nhập tên khách mời..." autocomplete="off">
+                <p id="errorText" class="error-text">Bạn chưa nhập tên kìa!</p>
+            </div>
+            
+            <button id="openBtn">Mở Thiệp</button>
         </div>
     </div>
 
-    <!-- PHẦN WEBSITE SINH NHẬT CHÍNH -->
-    <div id="main-content">
-        <!-- BẠN THIẾT KẾ GIAO DIỆN CHÍNH CỦA WEBSITE VÀO ĐÂY -->
-        <h1 class="main-title">Chúc Mừng Sinh Nhật! 🎉</h1>
-        <p class="main-message">
-            Đây là không gian dành cho website sinh nhật chính của bạn. 
-            Bạn có thể chèn thêm ảnh, video, nhạc hoặc những lời chúc dài hơn ở dưới này nhé!
-        </p>
+    <!-- SCREEN 2: The Invitation -->
+    <div id="screen2" class="screen hidden-screen">
+        <div class="glass-card">
+            <p class="invitation-header">Trân trọng kính mời</p>
+            <h1 id="guestNameDisplay" class="guest-name-display">Khách mời</h1>
+            
+            <div class="host-info">
+                <p class="host-title">Đến dự lễ tốt nghiệp của Tân cử nhân:</p>
+                <p class="host-name">Nguyễn Thanh Đa</p>
+            </div>
+
+            <div class="event-details">
+                <div class="detail-item">
+                    <svg class="detail-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z"/>
+                    </svg>
+                    <p class="detail-text"><strong>Địa điểm:</strong><br>Hội trường Rùa, Đại học Cần Thơ</p>
+                </div>
+                <div class="detail-item">
+                    <svg class="detail-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12.5 7H11V13L16.25 16.15L17 14.92L12.5 12.25V7Z"/>
+                    </svg>
+                    <p class="detail-text"><strong>Thời gian:</strong><br>15h30 ngày 31.10.2026</p>
+                </div>
+            </div>
+
+            <p class="wishes">Chúc bạn luôn vui vẻ, tràn đầy năng lượng và thành công rực rỡ! Sự hiện diện của bạn là món quà tuyệt vời nhất trong ngày vui của mình.</p>
+        </div>
     </div>
 
-    <!-- SCRIPT CHẠY HIỆU ỨNG -->
     <script>
-        // Kịch bản các dòng chữ
-        const texts = [
-            "Xin chào...",
-            "Nếu bạn đang đọc được dòng này...",
-            "Có lẽ mình đã chuẩn bị điều này khá lâu.",
-            "Tặng riêng cho..."
-        ];
+        // Generate Floating Particles Background dynamically
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20; // Number of orbs
 
-        const textDisplay = document.getElementById('text-display');
-        const finalScreen = document.getElementById('final-screen');
-        const introContainer = document.getElementById('intro-container');
-        const mainContent = document.getElementById('main-content');
-        const startBtn = document.getElementById('start-btn');
-
-        let currentIndex = 0;
-
-        function showNextText() {
-            if (currentIndex < texts.length) {
-                // Hiển thị nội dung chữ
-                textDisplay.textContent = texts[currentIndex];
-                // Fade in
-                textDisplay.style.opacity = 1;
+            for (let i = 0; i < particleCount; i++) {
+                let orb = document.createElement('div');
+                orb.classList.add('orb');
                 
-                // Đợi 2.5s rồi Fade out
-                setTimeout(() => {
-                    textDisplay.style.opacity = 0;
-                    currentIndex++;
-                    
-                    // Đợi 1s cho chữ mờ hẳn rồi mới gọi dòng tiếp theo
-                    setTimeout(showNextText, 1000); 
-                }, 2500); 
-            } else {
-                // Đã chạy hết mảng chữ, ẩn thẻ hiển thị chữ đi
-                textDisplay.style.display = 'none';
-                
-                // Hiển thị màn hình có TÊN và NÚT BẤM
-                finalScreen.style.display = 'flex';
-                // Delay 1 xíu để CSS nhận diện display: flex trước khi chạy transition opacity
-                setTimeout(() => {
-                    finalScreen.style.opacity = 1;
-                }, 100);
+                // Random properties for natural look
+                let size = Math.random() * 80 + 20; // 20px to 100px
+                let left = Math.random() * 100; // 0% to 100vw
+                let duration = Math.random() * 15 + 10; // 10s to 25s
+                let delay = Math.random() * 10; // 0s to 10s
+
+                orb.style.width = `${size}px`;
+                orb.style.height = `${size}px`;
+                orb.style.left = `${left}%`;
+                orb.style.animationDuration = `${duration}s`;
+                orb.style.animationDelay = `-${delay}s`; // start immediately at different points
+
+                container.appendChild(orb);
             }
         }
 
-        // Bắt đầu chạy hiệu ứng sau khi trang web load 1 giây
-        setTimeout(showNextText, 1000);
+        // Logic for screens transition
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
 
-        // Sự kiện khi bấm nút "Bắt đầu"
-        startBtn.addEventListener('click', () => {
-            // Fade out toàn bộ màn hình intro
-            introContainer.style.opacity = 0;
-            
-            setTimeout(() => {
-                introContainer.style.display = 'none'; // Ẩn hẳn màn hình intro
+            const input = document.getElementById('guestNameInput');
+            const btn = document.getElementById('openBtn');
+            const screen1 = document.getElementById('screen1');
+            const screen2 = document.getElementById('screen2');
+            const guestNameDisplay = document.getElementById('guestNameDisplay');
+            const errorText = document.getElementById('errorText');
+
+            function openInvitation() {
+                const name = input.value.trim();
                 
-                // Hiện giao diện Website Chính
-                document.body.style.backgroundColor = "#fff"; // Đổi nền body thành trắng
-                mainContent.style.display = 'flex';
-                
+                // Validation
+                if (!name) {
+                    input.classList.add('shake');
+                    errorText.style.opacity = '1';
+                    
+                    // Remove shake class after animation completes
+                    setTimeout(() => {
+                        input.classList.remove('shake');
+                    }, 400);
+                    return;
+                }
+
+                // Hide error if previously shown
+                errorText.style.opacity = '0';
+
+                // Setup Screen 2 data
+                guestNameDisplay.textContent = name;
+
+                // Animate transition
+                screen1.classList.remove('active-screen');
+                screen1.classList.add('hidden-screen');
+
+                // Wait for Screen 1 to fade out before showing Screen 2
                 setTimeout(() => {
-                    mainContent.style.opacity = 1; // Fade in giao diện chính
-                }, 100);
+                    screen2.classList.remove('hidden-screen');
+                    screen2.classList.add('active-screen');
+                    
+                    // Add some special effects when card opens (Optional Confetti effect logic can go here)
+                    generateBurst();
+                }, 500);
+            }
 
-            }, 1000); // Chờ 1s cho intro mờ hẳn
+            // Event Listeners
+            btn.addEventListener('click', openInvitation);
+            
+            // Allow pressing "Enter" on keyboard
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    openInvitation();
+                }
+            });
+
+            // Remove error text when user starts typing
+            input.addEventListener('input', () => {
+                if(input.value.trim().length > 0) {
+                    errorText.style.opacity = '0';
+                    input.style.borderColor = 'var(--gold)';
+                }
+            });
+
+            // Extra effect: Burst of particles on opening
+            function generateBurst() {
+                const container = document.getElementById('particles');
+                for (let i = 0; i < 10; i++) {
+                    let burstOrb = document.createElement('div');
+                    burstOrb.classList.add('orb');
+                    let size = Math.random() * 40 + 10; 
+                    burstOrb.style.width = `${size}px`;
+                    burstOrb.style.height = `${size}px`;
+                    burstOrb.style.left = `50%`; // start from center
+                    burstOrb.style.bottom = `40%`;
+                    
+                    // Add quick burst animation inline
+                    burstOrb.style.animation = `none`;
+                    burstOrb.style.transition = `all 2s cubic-bezier(0.1, 0.8, 0.2, 1)`;
+                    
+                    container.appendChild(burstOrb);
+                    
+                    // Trigger reflow
+                    void burstOrb.offsetWidth;
+                    
+                    // Explode outwards
+                    let x = (Math.random() - 0.5) * 400;
+                    let y = (Math.random() - 0.5) * 400 - 200; // favor upward
+                    burstOrb.style.transform = `translate(${x}px, ${y}px) scale(0)`;
+                    burstOrb.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        burstOrb.remove();
+                    }, 2000);
+                }
+            }
         });
     </script>
 </body>
