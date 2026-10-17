@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thiệp Mời Lễ Tốt Nghiệp - Nguyễn Thanh Đa</title>
-    <!-- Tải các font chữ giống mẫu -->
+    <!-- Tải các font chữ giống mẫu cũ -->
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Great+Vibes&family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -17,20 +17,18 @@
         body {
             margin: 0; padding: 0;
             font-family: 'Montserrat', sans-serif;
-            /* Nền đỏ đậm mờ ngoài body */
             background: linear-gradient(135deg, #1a0202, #3a0606);
             color: white;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* Prevent scrolling when zooming in some devices */
             position: relative;
         }
 
         /* Khung thiệp chính */
         .card {
-            /* Background gradient chéo giống mẫu */
             background: linear-gradient(145deg, #a31616 0%, #750e0e 50%, #4a0707 100%);
             border-radius: 15px;
             padding: 30px 20px 40px;
@@ -42,6 +40,19 @@
             z-index: 10;
             box-sizing: border-box;
             border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* MŨ TỐT NGHIỆP TRANG TRÍ GÓC THIỆP */
+        .grad-cap-corner {
+            position: absolute;
+            top: -25px;
+            right: -25px;
+            width: 90px;
+            height: 90px;
+            transform: rotate(20deg);
+            z-index: 100;
+            filter: drop-shadow(3px 8px 6px rgba(0,0,0,0.5));
+            pointer-events: none; /* Không cản trở click */
         }
         
         .hidden { display: none !important; }
@@ -97,9 +108,7 @@
             40%, 60% { transform: translate3d(4px, 0, 0); } 
         }
 
-        /* --- TRANG 2 (GIỐNG MẪU) --- */
-        
-        /* Chữ HAPPY viền mỏng */
+        /* --- TRANG 2 --- */
         .text-happy {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
@@ -113,7 +122,6 @@
             padding-left: 20px;
         }
 
-        /* Chữ Graduation lượn sóng */
         .text-graduation {
             font-family: 'Great Vibes', cursive;
             font-size: 4em;
@@ -125,7 +133,6 @@
             transform: rotate(-5deg);
         }
 
-        /* Phần chứa Ảnh và Tên */
         .hero-section {
             position: relative;
             height: 280px;
@@ -135,7 +142,6 @@
             align-items: center;
         }
 
-        /* Tên chủ tiệc nằm chìm phía sau */
         .name-bg {
             position: absolute;
             font-family: 'Alfa Slab One', cursive;
@@ -149,25 +155,21 @@
             width: 100%;
         }
 
-        /* Ảnh chân dung đè lên tên */
         .photo-img {
             position: relative;
             z-index: 2;
             height: 100%;
             object-fit: contain;
-            /* Tạo bóng đổ cho ảnh để tạo cảm giác 3D */
             filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
         }
 
-        /* Phần Trân trọng kính mời */
         .invite-label {
             font-family: 'Montserrat', sans-serif;
             font-size: 0.9em;
             font-weight: 500;
-            margin-top: 14px;
+            margin-top: 10px;
         }
 
-        /* Tên khách mời viền dưới nét đứt */
         .guest-name {
             font-family: 'Great Vibes', cursive;
             font-size: 3.5em;
@@ -179,7 +181,6 @@
             text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
         }
 
-        /* Khung ngày giờ bo góc */
         .datetime-box {
             display: flex;
             border: 2px solid white;
@@ -212,7 +213,6 @@
             letter-spacing: 1px;
         }
 
-        /* Địa điểm */
         .location {
             font-family: 'Montserrat', sans-serif;
             font-size: 1em;
@@ -229,7 +229,6 @@
             line-height: 1.4;
         }
         
-        /* Lời nhắn nhỏ */
         .wishes {
             font-size: 0.8em;
             font-style: italic;
@@ -239,53 +238,65 @@
     </style>
 </head>
 <body>
-    <!-- Trang 1: Nhập tên -->
-    <div id="page1" class="card">
-        <div class="page1-title">Thiệp Mời</div>
-        <p style="font-size: 0.9em; margin-bottom: 25px;">Để xem thiệp mời, vui lòng nhập tên của bạn nhé!</p>
-        <input type="text" id="guestNameInput" placeholder="Nhập tên của bạn tại đây !" autocomplete="off">
-        <br>
-        <button onclick="openInvitation()">Mở Thiệp</button>
-    </div>
+    
+    <div class="card">
+        
+        <!-- Mũ tốt nghiệp đội chéo ở góc thiệp -->
+        <svg class="grad-cap-corner" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Nón phần đầu (Skull cap) -->
+            <path d="M 25 45 L 25 65 Q 50 85 75 65 L 75 45 Z" fill="#111111"/>
+            <!-- Dây tua rua (Tassel Cord) -->
+            <path d="M 50 35 Q 85 45 85 75" stroke="#e8c678" stroke-width="2" fill="none"/>
+            <!-- Chùm tua rua -->
+            <polygon points="82,75 88,75 92,95 78,95" fill="#e8c678"/>
+            <!-- Mặt phẳng kim cương của nón (Diamond Top) -->
+            <polygon points="50,15 95,35 50,55 5,35" fill="#222222"/>
+            <!-- Nút tròn vương miện trên đỉnh -->
+            <circle cx="50" cy="35" r="4" fill="#e8c678"/>
+        </svg>
 
-    <!-- Trang 2: Chi tiết thiệp mời -->
-    <div id="page2" class="card hidden">
-        
-        <div class="text-happy">Happy</div>
-        <div class="text-graduation">Graduation</div>
-        
-        <!-- Khu vực chèn ảnh và tên chủ tiệc -->
-        <div class="hero-section">
-            <div class="name-bg">NGUYỄN<br>THANH ĐA</div>
+        <!-- Trang 1: Nhập tên -->
+        <div id="page1">
+            <div class="page1-title">Thiệp Mời</div>
+            <p style="font-size: 0.9em; margin-bottom: 25px;">Để xem thiệp mời, vui lòng nhập tên của bạn nhé!</p>
+            <input type="text" id="guestNameInput" placeholder="Ví dụ: Cậu Vàng, Bạn thân..." autocomplete="off">
+            <br>
+            <button onclick="openInvitation()">Mở Thiệp</button>
+        </div>
+
+        <!-- Trang 2: Chi tiết thiệp mời -->
+        <div id="page2" class="hidden">
             
-            <!-- HƯỚNG DẪN THAY ẢNH: 
-                 1. Tách nền ảnh của bạn thành đuôi .PNG trong suốt (có thể dùng remove.bg).
-                 2. Upload ảnh đó lên host của bạn.
-                 3. Đổi đường link trong thẻ src="..." bên dưới thành link ảnh của bạn. -->
-            <img src="thanhda-avatar.png" alt="Ảnh Nguyễn Thanh Đa" class="photo-img">
-        </div>
+            <div class="text-happy">Happy</div>
+            <div class="text-graduation">Graduation</div>
+            
+            <div class="hero-section">
+                <div class="name-bg">NGUYỄN<br>THANH ĐA</div>
+                
+                <!-- HƯỚNG DẪN THAY ẢNH: Đổi link ảnh trong thẻ src bên dưới -->
+                <img src="thanhda-avatar.jpg" alt="Ảnh Nguyễn Thanh Đa" class="photo-img">
+            </div>
 
-        <div class="invite-label">Trân trọng kính mời</div>
-        <div class="guest-name" id="guestNameDisplay">Tên Khách Mời</div>
-        
-        <!-- Khung Ngày & Giờ -->
-        <div class="datetime-box">
-            <div class="col">
-                <div class="dt-label">Thứ Bảy</div>
-                <div class="dt-value">31.10</div>
+            <div class="invite-label">Trân trọng kính mời</div>
+            <div class="guest-name" id="guestNameDisplay">Tên Khách Mời</div>
+            
+            <div class="datetime-box">
+                <div class="col">
+                    <div class="dt-label">Thứ Bảy</div>
+                    <div class="dt-value">31.10</div>
+                </div>
+                <div class="divider"></div>
+                <div class="col">
+                    <div class="dt-label">Vào lúc</div>
+                    <div class="dt-value">15H30</div>
+                </div>
             </div>
-            <div class="divider"></div>
-            <div class="col">
-                <div class="dt-label">Vào lúc</div>
-                <div class="dt-value">15H30</div>
-            </div>
+            
+            <div class="location">HỘI TRƯỜNG RÙA<br>ĐẠI HỌC CẦN THƠ</div>
+            <div class="address">Khu II, Đ. 3/2, P. Ninh Kiều, Cần Thơ</div>
+            
+            <div class="wishes">Sự hiện diện của bạn là niềm vinh hạnh<br>và là món quà ý nghĩa nhất đối với mình!</div>
         </div>
-        
-        <!-- Địa điểm -->
-        <div class="location">HỘI TRƯỜNG RÙA<br>ĐẠI HỌC CẦN THƠ</div>
-        <div class="address">Khu II, Đ. 3/2, P. Ninh Kiều, Cần Thơ</div>
-        
-        <div class="wishes">Sự hiện diện của bạn là niềm vinh hạnh<br>và là món quà ý nghĩa nhất đối với mình!</div>
     </div>
 
     <script>
@@ -297,9 +308,9 @@
             
             const name = input.value.trim();
             if (!name) {
-                // Hiệu ứng rung khi quên nhập tên
+                // Hiệu ứng rung
                 input.classList.remove('shake');
-                void input.offsetWidth; // trigger reflow
+                void input.offsetWidth;
                 input.classList.add('shake');
                 return;
             }
@@ -314,7 +325,6 @@
             }, 500);
         }
         
-        // Bắt sự kiện phím Enter
         document.getElementById('guestNameInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 openInvitation();
